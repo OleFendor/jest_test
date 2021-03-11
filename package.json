@@ -7,5 +7,14 @@
     "test": "jest"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^26.6.3"
+  },
+  "dependencies": {
+    "browserlist": "^1.0.1",
+    "mongodb": "^3.6.4",
+    "mongodb-memory-server": "^6.9.6",
+    "mongoose": "^5.11.19"
+  }
 }
