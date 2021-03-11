@@ -21,7 +21,7 @@ describe('create tests', () => {
     await mms.closeDB()
   })
 
-  test('undefine object', () => {
+  test('undefined object', () => {
     expect(controller.create()).toThrow()
   })
 })
