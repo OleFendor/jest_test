@@ -10,7 +10,7 @@ const {
   expect,
 } = require('@jest/globals')
 
-describe('get tests', () => {
+describe('create tests', () => {
   beforeAll(async () => {
     await mms.connect()
   })
@@ -21,7 +21,7 @@ describe('get tests', () => {
     await mms.closeDB()
   })
 
-  test('undefined object', () => {
-    expect(controller.getAll()).toThrow()
+  test('undefine object', () => {
+    expect(controller.create()).toThrow()
   })
 })
