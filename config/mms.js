@@ -3,9 +3,16 @@ const { MongoMemoryServer } = require('mongodb-memory-server')
 
 const mongoServer = new MongoMemoryServer()
 
+const mongooseOpts = {
+  useNewUrlParser: true,
+  autoReconnect: true,
+  reconnectTries: Number.MAX_VALUE,
+  reconnectInterval: 1000,
+}
+
 module.exports.connect = async () => {
   const uri = await mongoServer.getUri()
-  await mongoose.connect(uri, (err) => {
+  await mongoose.connect(uri, mongooseOpts, (err) => {
     if (err) console.error(err)
   })
 }

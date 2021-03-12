@@ -10,7 +10,7 @@ exports.create = async (user) => {
       role: user.role,
     }).save()
   } catch (e) {
-    console.error(e)
+    throw e
   }
 }
 
@@ -19,7 +19,7 @@ exports.getById = async (id) => {
     const user = await User.findById(id)
     return user
   } catch (e) {
-    console.error(e)
+    throw e
   }
 }
 
@@ -28,7 +28,7 @@ exports.getByEmail = async (email) => {
     const user = await User.findOne({ email: email })
     return user
   } catch (e) {
-    console.error(e)
+    throw e
   }
 }
 
@@ -37,7 +37,7 @@ exports.getAll = async () => {
     const users = await User.find({})
     return users
   } catch (e) {
-    console.error(e)
+    throw e
   }
 }
 
@@ -45,7 +45,7 @@ exports.delete = async (id) => {
   try {
     await User.findByIdAndDelete(id)
   } catch (e) {
-    console.error(e)
+    throw e
   }
 }
 
@@ -60,6 +60,6 @@ exports.update = async (newdata) => {
       role: newdata.role ?? user.role,
     })
   } catch (e) {
-    console.error(e)
+    throw e
   }
 }
