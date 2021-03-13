@@ -49,16 +49,9 @@ exports.delete = async (id) => {
   }
 }
 
-exports.update = async (newdata) => {
+exports.update = async (id, newdata) => {
   try {
-    const user = await User.findById(newdata._id)
-    await user.update({
-      name: newdata.name ?? user.name,
-      surname: newdata.surname ?? user.surname,
-      email: newdata.email ?? user.email,
-      password: newdata.password ?? user.password,
-      role: newdata.role ?? user.role,
-    })
+    await User.findByIdAndUpdate(id, newdata)
   } catch (e) {
     throw e
   }
