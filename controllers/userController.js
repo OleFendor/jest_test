@@ -2,13 +2,7 @@ const User = require('../models/user')
 
 exports.create = async (user) => {
   try {
-    await new User({
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-      password: user.password,
-      role: user.role,
-    }).save()
+    await new User(user).save()
   } catch (e) {
     throw e
   }

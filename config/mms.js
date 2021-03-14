@@ -8,6 +8,7 @@ const mongooseOpts = {
   autoReconnect: true,
   reconnectTries: Number.MAX_VALUE,
   reconnectInterval: 1000,
+  useFindAndModify: false,
 }
 
 module.exports.connect = async () => {

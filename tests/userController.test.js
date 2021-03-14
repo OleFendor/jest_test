@@ -11,14 +11,6 @@ const {
   beforeEach,
 } = require('@jest/globals')
 
-const CheckUser = (myUser, dbUser) => {
-  expect(dbUser).toHaveProperty('name', myUser.name)
-  expect(dbUser).toHaveProperty('surname', myUser.surname)
-  expect(dbUser).toHaveProperty('email', myUser.email)
-  expect(dbUser).toHaveProperty('password', myUser.password)
-  expect(dbUser).toHaveProperty('role', myUser.role)
-}
-
 describe('user model tests', () => {
   beforeAll(async () => {
     await mms.connect()
@@ -73,9 +65,8 @@ describe('user model tests', () => {
       }
       await controller.create(user)
       const userDb = await User.find()
-      const count = await User.count()
-      expect(count).toBe(1)
-      CheckUser(user, userDb[0])
+      expect(userDb).toHaveLength(1)
+      expect(userDb[0]).toMatchObject(user)
     })
     test('success admin create', async () => {
       const user = {
@@ -87,13 +78,20 @@ describe('user model tests', () => {
       }
       await controller.create(user)
       const userDb = await User.find()
-      const count = await User.count()
-      expect(count).toBe(1)
-      CheckUser(user, userDb[0])
+      expect(userDb).toHaveLength(1)
+      expect(userDb[0]).toMatchObject(user)
     })
   })
 
   describe('GET', () => {
+    const CheckUser = (myUser, dbUser) => {
+      expect(dbUser).toHaveProperty('name', myUser.name)
+      expect(dbUser).toHaveProperty('surname', myUser.surname)
+      expect(dbUser).toHaveProperty('email', myUser.email)
+      expect(dbUser).toHaveProperty('password', myUser.password)
+      expect(dbUser).toHaveProperty('role', myUser.role)
+    }
+
     describe('geAll()', () => {
       test('getAll with empty db', async () => {
         const users = await controller.getAll()
