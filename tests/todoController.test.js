@@ -1,7 +1,6 @@
 const controller = require('../controllers/todoController')
 const mms = require('../config/mms')
 const Todo = require('../models/todo')
-const mongoose = require('mongoose')
 const {
   describe,
   beforeAll,

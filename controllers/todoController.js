@@ -9,12 +9,8 @@ exports.create = async (todo) => {
 }
 
 exports.getAll = async () => {
-  try {
-    const todos = await Todo.find({})
-    return todos
-  } catch (e) {
-    throw e
-  }
+  const todos = await Todo.find({})
+  return todos
 }
 
 exports.getById = async (id) => {
@@ -27,12 +23,9 @@ exports.getById = async (id) => {
 }
 
 exports.getByUser = async (user) => {
-  try {
-    const todo = await Todo.findOne({ user: user })
-    return todo
-  } catch (e) {
-    throw e
-  }
+  const todo = await Todo.findOne({ user: user })
+  if (!todo) throw new Error()
+  return todo
 }
 
 exports.update = async (id, newdata) => {

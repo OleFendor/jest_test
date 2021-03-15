@@ -18,21 +18,14 @@ exports.getById = async (id) => {
 }
 
 exports.getByEmail = async (email) => {
-  try {
-    const user = await User.findOne({ email: email })
-    return user
-  } catch (e) {
-    throw e
-  }
+  const user = await User.findOne({ email: email })
+  if (!user) throw new Error()
+  return user
 }
 
 exports.getAll = async () => {
-  try {
-    const users = await User.find({})
-    return users
-  } catch (e) {
-    throw e
-  }
+  const users = await User.find({})
+  return users
 }
 
 exports.delete = async (id) => {
