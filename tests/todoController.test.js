@@ -1,6 +1,6 @@
-const controller = require('../controllers/todoController')
-const mms = require('../config/mms')
-const Todo = require('../models/todo')
+const controller = require('../controllers/todoController');
+const mms = require('../config/mms');
+const Todo = require('../models/todo');
 const {
   describe,
   beforeAll,
@@ -9,30 +9,30 @@ const {
   test,
   expect,
   beforeEach,
-} = require('@jest/globals')
+} = require('@jest/globals');
 
 describe('test', () => {
   beforeAll(async () => {
-    await mms.connect()
-  })
+    await mms.connect();
+  });
   afterEach(async () => {
-    await mms.clearDB()
-  })
+    await mms.clearDB();
+  });
   afterAll(async () => {
-    await mms.closeDB()
-  })
+    await mms.closeDB();
+  });
 
   describe('CREATE', () => {
     test('create null', () => {
-      expect(controller.create()).rejects.toThrow('Incorrect todo')
-    })
+      expect(controller.create()).rejects.toThrow('Incorrect todo');
+    });
 
     test('create without all data', () => {
       const todo = {
         name: 'a',
-      }
-      expect(controller.create(todo)).rejects.toThrow('Incorrect todo')
-    })
+      };
+      expect(controller.create(todo)).rejects.toThrow('Incorrect todo');
+    });
 
     test('create with incorect status', () => {
       const todo = {
@@ -41,9 +41,9 @@ describe('test', () => {
         status: 'ok',
         date: '01.04.2021',
         user: '01',
-      }
-      expect(controller.create(todo)).rejects.toThrow('Incorrect todo')
-    })
+      };
+      expect(controller.create(todo)).rejects.toThrow('Incorrect todo');
+    });
 
     test('create todo', async () => {
       const todo = {
@@ -52,25 +52,25 @@ describe('test', () => {
         status: true,
         date: '01.04.2021',
         user: '01',
-      }
-      await controller.create(todo)
-      expect(await Todo.find({})).toHaveLength(1)
-      expect(await Todo.findOne({ name: 'a' })).toMatchObject(todo)
-    })
-  })
+      };
+      await controller.create(todo);
+      expect(await Todo.find({})).toHaveLength(1);
+      expect(await Todo.findOne({ name: 'a' })).toMatchObject(todo);
+    });
+  });
 
   describe('GET', () => {
     const CheckTodo = (myTodo, dbTodo) => {
-      expect(dbTodo).toHaveProperty('name', myTodo.name)
-      expect(dbTodo).toHaveProperty('description', myTodo.description)
-      expect(dbTodo).toHaveProperty('status', myTodo.status)
-      expect(dbTodo).toHaveProperty('date', myTodo.date)
-      expect(dbTodo).toHaveProperty('user', myTodo.user)
-    }
+      expect(dbTodo).toHaveProperty('name', myTodo.name);
+      expect(dbTodo).toHaveProperty('description', myTodo.description);
+      expect(dbTodo).toHaveProperty('status', myTodo.status);
+      expect(dbTodo).toHaveProperty('date', myTodo.date);
+      expect(dbTodo).toHaveProperty('user', myTodo.user);
+    };
     describe('getAll()', () => {
       test('with empty db', async () => {
-        expect(await controller.getAll()).toHaveLength(0)
-      })
+        expect(await controller.getAll()).toHaveLength(0);
+      });
 
       test('1 object getAll', async () => {
         const todo = await new Todo({
@@ -79,29 +79,29 @@ describe('test', () => {
           status: false,
           date: '11.03.2021',
           user: '21saw12e12',
-        }).save()
-        const todoDb = await controller.getAll()
-        expect(todoDb).toHaveLength(1)
-        CheckTodo(todo, todoDb[0])
-      })
-    })
+        }).save();
+        const todoDb = await controller.getAll();
+        expect(todoDb).toHaveLength(1);
+        CheckTodo(todo, todoDb[0]);
+      });
+    });
 
     describe('getById()', () => {
       test('without id', async () => {
         try {
-          await controller.getById()
+          await controller.getById();
         } catch (e) {
-          expect(e).toBeDefined()
+          expect(e).toBeDefined();
         }
-      })
+      });
 
       test('wronge id', async () => {
         try {
-          await controller.getById(1)
+          await controller.getById(1);
         } catch (e) {
-          expect(e).toBeDefined()
+          expect(e).toBeDefined();
         }
-      })
+      });
 
       test('success get by id', async () => {
         const todo = await new Todo({
@@ -110,11 +110,11 @@ describe('test', () => {
           status: false,
           date: '11.03.2021',
           user: '21saw12e12',
-        }).save()
-        const todoDb = await controller.getById(todo._id)
-        CheckTodo(todo, todoDb)
-      })
-    })
+        }).save();
+        const todoDb = await controller.getById(todo._id);
+        CheckTodo(todo, todoDb);
+      });
+    });
     describe('getByUser()', () => {
       test('without user id', async () => {
         try {
@@ -124,12 +124,12 @@ describe('test', () => {
             status: false,
             date: '11.03.2021',
             user: '21saw12e12',
-          }).save()
-          await controller.getByUser()
+          }).save();
+          await controller.getByUser();
         } catch (e) {
-          expect(e).toBeDefined()
+          expect(e).toBeDefined();
         }
-      })
+      });
 
       test('with wronge user id', async () => {
         try {
@@ -139,12 +139,12 @@ describe('test', () => {
             status: false,
             date: '11.03.2021',
             user: '21saw12e12',
-          }).save()
-          await controller.getByUser(todo.user)
+          }).save();
+          await controller.getByUser(todo.user);
         } catch (e) {
-          expect(e).toBeDefined()
+          expect(e).toBeDefined();
         }
-      })
+      });
 
       test('Success get by user id', async () => {
         const todo = await new Todo({
@@ -153,21 +153,21 @@ describe('test', () => {
           status: false,
           date: '11.03.2021',
           user: '21saw12e12',
-        }).save()
-        const findedTodo = await controller.getByUser(todo.user)
-        CheckTodo(todo, findedTodo)
-      })
-    })
-  })
+        }).save();
+        const findedTodo = await controller.getByUser(todo.user);
+        CheckTodo(todo, findedTodo);
+      });
+    });
+  });
 
   describe('UPDATE', () => {
     test('update null todo', async () => {
       try {
-        await controller.update('1', { name: 'a' })
+        await controller.update('1', { name: 'a' });
       } catch (e) {
-        expect(e).toBeDefined()
+        expect(e).toBeDefined();
       }
-    })
+    });
 
     test('update with no data', async () => {
       const todo = await new Todo({
@@ -176,12 +176,12 @@ describe('test', () => {
         status: false,
         date: '11.03.2021',
         user: '21saw12e12',
-      }).save()
+      }).save();
 
-      const todo_copy = Object.assign({}, todo)
-      await controller.update(todo._id, {})
-      expect(todo).toEqual(todo_copy)
-    })
+      const todo_copy = Object.assign({}, todo);
+      await controller.update(todo._id, {});
+      expect(todo).toEqual(todo_copy);
+    });
 
     test('update with wronge status', async () => {
       const todo = await new Todo({
@@ -190,13 +190,13 @@ describe('test', () => {
         status: false,
         date: '11.03.2021',
         user: '21saw12e12',
-      }).save()
+      }).save();
       try {
-        await controller.update(todo._id, { status: 'a' })
+        await controller.update(todo._id, { status: 'a' });
       } catch (e) {
-        expect(e).toBeDefined()
+        expect(e).toBeDefined();
       }
-    })
+    });
 
     test('success update', async () => {
       const todo = await new Todo({
@@ -205,20 +205,20 @@ describe('test', () => {
         status: false,
         date: '11.03.2021',
         user: '21saw12e12',
-      }).save()
+      }).save();
 
       await controller.update(todo._id, {
         name: 'Task_1',
         date: '11.06.20',
         status: true,
-      })
-      const todoDb = await Todo.findById(todo._id)
-      expect(todoDb).toHaveProperty('date', '11.06.20')
-      expect(todoDb).toHaveProperty('name', 'Task_1')
-      expect(todoDb).toHaveProperty('status', true)
-      expect(todoDb).toHaveProperty('description', 'b')
-    })
-  })
+      });
+      const todoDb = await Todo.findById(todo._id);
+      expect(todoDb).toHaveProperty('date', '11.06.20');
+      expect(todoDb).toHaveProperty('name', 'Task_1');
+      expect(todoDb).toHaveProperty('status', true);
+      expect(todoDb).toHaveProperty('description', 'b');
+    });
+  });
 
   describe('DELETE', () => {
     test('success delete', async () => {
@@ -228,10 +228,10 @@ describe('test', () => {
         status: false,
         date: '11.03.2021',
         user: '21saw12e12',
-      }).save()
-      await controller.delete(todo._id)
-      expect(await Todo.count()).toEqual(0)
-    })
+      }).save();
+      await controller.delete(todo._id);
+      expect(await Todo.count()).toEqual(0);
+    });
 
     test('delete with wronge id', async () => {
       const todo = await new Todo({
@@ -240,12 +240,12 @@ describe('test', () => {
         status: false,
         date: '11.03.2021',
         user: '21saw12e12',
-      }).save()
+      }).save();
       try {
-        await controller.delete(todo._id + 1)
+        await controller.delete(todo._id + 1);
       } catch (e) {
-        expect(e).toBeDefined()
+        expect(e).toBeDefined();
       }
-    })
-  })
-})
+    });
+  });
+});
